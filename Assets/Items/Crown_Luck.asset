@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73966973ee0a1b74d9686d4645ec8d18, type: 3}
   m_Name: Crown_Luck
   m_EditorClassIdentifier: 
-  itemName: 
-  itemID: 
+  itemName: Crown_Luck
+  itemID: Crown_Luck3
   description: 
-  rarity: 0
-  itemSet: 
-  bonuses: []
-  itemIcon: {fileID: 0}
+  rarity: 2
+  itemSet: Luck
+  bonuses:
+  - bonusType: Luck
+    bonusValue: 3
+    valueType: 0
+  itemIcon: {fileID: 21300000, guid: 4c550542b5074de4fbdadcd18debc8e8, type: 3}
