@@ -3,45 +3,59 @@ using UnityEngine.SceneManagement;
 
 public class NavigationManager : MonoBehaviour
 {
-    public static NavigationManager Instance { get; private set; }
+    [Header("UI Panels")]
+    [SerializeField] private GameObject[] panels; // Массив панелей
 
-    private void Awake()
-    {
-        // Убедиться, что только один экземпляр существует
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // Не уничтожать объект при загрузке новой сцены
-        }
-        else
-        {
-            Destroy(gameObject); // Удалить дополнительные экземпляры
-        }
-    }
-
+    // Метод для загрузки сцены по имени
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
     }
 
-    public void QuitGame()
+    // Метод для выхода из игры
+    public void ExitGame()
     {
         Application.Quit();
     }
 
-    private bool isPaused = false;
-
-    public void TogglePause()
+    // Метод для паузы игры
+    public void PauseGame()
     {
-        if (isPaused)
+        Time.timeScale = Time.timeScale == 0 ? 1 : 0;
+    }
+
+    // Метод для переключения панелей
+    public void ShowPanel(int panelIndex)
+    {
+        if (panels == null || panels.Length == 0)
         {
-            Time.timeScale = 1f;
-            isPaused = false;
+            Debug.LogWarning("Панели не настроены в инспекторе!");
+            return;
+        }
+
+        if (panelIndex < 0 || panelIndex >= panels.Length)
+        {
+            Debug.LogWarning($"Индекс панели {panelIndex} вне диапазона! Доступно: 0-{panels.Length - 1}");
+            return;
+        }
+
+        // Деактивируем все панели
+        foreach (var panel in panels)
+        {
+            if (panel != null)
+            {
+                panel.SetActive(false);
+            }
+        }
+
+        // Активируем выбранную панель
+        if (panels[panelIndex] != null)
+        {
+            panels[panelIndex].SetActive(true);
         }
         else
         {
-            Time.timeScale = 0f;
-            isPaused = true;
+            Debug.LogWarning($"Панель с индексом {panelIndex} отсутствует!");
         }
     }
 }
